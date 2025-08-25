@@ -16,52 +16,62 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 
-export const description = 'A multiple bar chart';
+export interface WilayahBarDatum {
+  wilayah: string;
+  lancar: number;
+  tunggakan: number;
+}
 
-const chartData = [
-  { month: 'January', desktop: 186, mobile: 80 },
-  { month: 'February', desktop: 305, mobile: 200 },
-  { month: 'March', desktop: 237, mobile: 120 },
-  { month: 'April', desktop: 73, mobile: 190 },
-  { month: 'May', desktop: 209, mobile: 130 },
-  { month: 'June', desktop: 214, mobile: 140 },
+const defaultData: WilayahBarDatum[] = [
+  { wilayah: 'KANTOR PUSAT', lancar: 100, tunggakan: 40 },
+  { wilayah: 'IKK POLUT', lancar: 80, tunggakan: 25 },
+  { wilayah: 'IKK GALESONG', lancar: 120, tunggakan: 30 },
 ];
 
 const chartConfig = {
-  desktop: {
-    label: 'Desktop',
+  lancar: {
+    label: 'Lancar',
     color: 'var(--chart-1)',
   },
-  mobile: {
-    label: 'Mobile',
+  tunggakan: {
+    label: 'Tunggakan',
     color: 'var(--chart-2)',
   },
 } satisfies ChartConfig;
 
-export function ChartBarMultiple() {
+interface ChartBarMultipleProps {
+  data?: WilayahBarDatum[];
+  title?: string;
+  description?: string;
+}
+
+export function ChartBarMultiple({
+  data = defaultData,
+  title = 'Lancar vs Tunggakan',
+  description,
+}: ChartBarMultipleProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Bar Chart - Multiple</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>{title}</CardTitle>
+        {description ? <CardDescription>{description}</CardDescription> : null}
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart accessibilityLayer data={data}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey='month'
+              dataKey='wilayah'
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator='dashed' />}
             />
-            <Bar dataKey='desktop' fill='var(--color-desktop)' radius={4} />
-            <Bar dataKey='mobile' fill='var(--color-mobile)' radius={4} />
+            <Bar dataKey='lancar' fill='var(--color-lancar)' radius={4} />
+            <Bar dataKey='tunggakan' fill='var(--color-tunggakan)' radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>
