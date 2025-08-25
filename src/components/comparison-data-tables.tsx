@@ -13,7 +13,7 @@ import {
 export interface ComparisonRow {
   lancar: number | string;
   tunggakan: number | string;
-  efisiensi: number | string; 
+  efisiensi?: number | string; // optional: not provided by API yet
 }
 
 interface ComparisonDataTablesProps {
@@ -30,17 +30,9 @@ function formatValue(v: number | string) {
 
 export function ComparisonDataTables({
   lastMonthLabel = 'Bulan Lalu',
-  currentMonthLabel = 'Bulan Sekarang',
-  lastMonthData = [
-    { lancar: 1200, tunggakan: 150, efisiensi: '89%' },
-    { lancar: 1200, tunggakan: 150, efisiensi: '89%' },
-    { lancar: 1200, tunggakan: 150, efisiensi: '89%' },
-  ],
-  currentMonthData = [
-    { lancar: 1350, tunggakan: 120, efisiensi: '92%' },
-    { lancar: 1350, tunggakan: 120, efisiensi: '92%' },
-    { lancar: 1350, tunggakan: 120, efisiensi: '92%' },
-  ],
+  currentMonthLabel = 'Bulan Ini',
+  lastMonthData = [{ lancar: 0, tunggakan: 0 }],
+  currentMonthData = [{ lancar: 0, tunggakan: 0 }],
 }: ComparisonDataTablesProps) {
   return (
     <div className='flex flex-col gap-4 md:flex-row'>
@@ -61,7 +53,9 @@ export function ComparisonDataTables({
                   <TableRow key={i}>
                     <TableCell>{formatValue(row.lancar)}</TableCell>
                     <TableCell>{formatValue(row.tunggakan)}</TableCell>
-                    <TableCell>{formatValue(row.efisiensi)}</TableCell>
+                    <TableCell>
+                      {row.efisiensi ? formatValue(row.efisiensi) : ''}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -88,7 +82,9 @@ export function ComparisonDataTables({
                   <TableRow key={i}>
                     <TableCell>{formatValue(row.lancar)}</TableCell>
                     <TableCell>{formatValue(row.tunggakan)}</TableCell>
-                    <TableCell>{formatValue(row.efisiensi)}</TableCell>
+                    <TableCell>
+                      {row.efisiensi ? formatValue(row.efisiensi) : ''}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
