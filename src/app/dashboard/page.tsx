@@ -1,8 +1,13 @@
 import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { ModeToggle } from '@/components/ui/mode-toggle';
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('hublang_token')?.value;
+  if (!token) redirect('/');
   const cards = [
     {
       key: 'keuangan',
