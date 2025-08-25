@@ -2,8 +2,13 @@ import { AppSidebar } from '@/components/app-sidebar';
 import { SiteHeader } from '@/components/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { DrdTable } from '@/components/drd-table';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
-export default function Page() {
+export default async function Page() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('hublang_token')?.value;
+  if (!token) redirect('/');
   return (
     <SidebarProvider
       style={
